@@ -61,10 +61,12 @@ public class ReflectionHandler {
             }
         
             if(Field.class.equals(o.getClass())){
-                System.out.println(c.getField(FieldOrMethodname));
+                Field f = c.getField(FieldOrMethodname);
+                System.out.println(f.getAnnotations() + " " + f.getType() + " " + decodeModifiers(f,f.getModifiers()));
             }
             if(Method.class.equals(o.getClass())){
-                System.out.println(c.getMethod(FieldOrMethodname,params).getName() + " " + c.getMethod(FieldOrMethodname,params).getTypeParameters());
+                Method m = c.getMethod(FieldOrMethodname, params);
+                System.out.println(m.getReturnType() + " " + m.getParameterTypes() + " " + m.getAnnotations());
             }
         }catch(NoSuchFieldException e){
             System.err.println("This field doesn't exist in the class");
@@ -73,6 +75,20 @@ public class ReflectionHandler {
         } catch (InvalidInput e) {
             System.err.println(e.getMessage());
         }
+    }
+    
+    private static String decodeModifiers(AccessibleObject o,int mods){
+        String Modifiers = "";
+        System.out.println(o.getClass());
+        System.out.println(mods);
+        if ((Modifier.PUBLIC&mods)==1)      Modifiers += "public ";
+	if ((Modifier.PROTECTED&mods)==4)   Modifiers += "protected ";
+	if ((Modifier.PRIVATE&mods)==2)     Modifiers += "private ";
+	if ((Modifier.STATIC&mods)==8)      Modifiers += "static ";
+	if ((Modifier.FINAL&mods)==16)       Modifiers += "final ";
+	if ((Modifier.TRANSIENT&mods)==128)   Modifiers += "transient ";
+	if ((Modifier.VOLATILE&mods)==64)    Modifiers += "volatile ";
+	return Modifiers;
     }
     
 }
