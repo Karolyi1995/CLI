@@ -34,8 +34,8 @@ public class ReflectionHandler {
     
     public static void describe(Class c,AccessibleObject o,String visibility,String Objectname,Class... type){
         try{
-            if(Field.class.equals(o.getClass()) || Constructor.class.equals(o.getClass()) || Method.class.equals(o.getClass())){
-                throw new InvalidInput("Object isn't a type of field, constructor or method");
+            if(!Field.class.equals(o.getClass()) && !Constructor.class.equals(o.getClass()) && !Method.class.equals(o.getClass())){
+                System.out.println(c.getFields() + "\n" + c.getConstructors() + "\n" + c.getMethods());
             }
         
             if(Field.class.equals(o.getClass())){
@@ -48,15 +48,13 @@ public class ReflectionHandler {
             System.err.println("This field doesn't exist in the class");
         }catch(NoSuchMethodException e){
             System.err.println("This method doesn't exist");
-        } catch (InvalidInput e) {
-            System.err.println(e.getMessage());
         }
     }
     
     public static void details(Class c,AccessibleObject o,String FieldOrMethodname,Class... params) {
         
         try{
-            if(Field.class.equals(o.getClass()) || Method.class.equals(o.getClass())){
+            if(!Field.class.equals(o.getClass()) && !Method.class.equals(o.getClass())){
                 throw new InvalidInput("Object isn't a type of field or method");
             }
         
@@ -79,8 +77,6 @@ public class ReflectionHandler {
     
     private static String decodeModifiers(AccessibleObject o,int mods){
         String Modifiers = "";
-        System.out.println(o.getClass());
-        System.out.println(mods);
         if ((Modifier.PUBLIC&mods)==1)      Modifiers += "public ";
 	if ((Modifier.PROTECTED&mods)==4)   Modifiers += "protected ";
 	if ((Modifier.PRIVATE&mods)==2)     Modifiers += "private ";
